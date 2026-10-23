@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import Script from 'next/script'
 import { useRouter } from 'next/navigation'
 import { 
   ArrowLeft, 
@@ -15,11 +16,21 @@ import {
   Plus, 
   Minus,
   ShieldCheck,
-  Package
+  Package,
+  CreditCard,
+  Wallet
 } from 'lucide-react'
 import { MERCHANDISE_PRODUCTS } from '@/lib/conference-data'
 import { MerchandiseProduct, OrderItem } from '@/lib/types'
 import { saveOrder, getAttendeeByReference } from '@/lib/storage'
+
+declare global {
+  interface Window {
+    PaystackPop?: {
+      setup: (options: any) => { openIframe: () => void }
+    }
+  }
+}
 
 export default function StorePage() {
   const router = useRouter()
@@ -39,6 +50,8 @@ export default function StorePage() {
   const [customerPhone, setCustomerPhone] = useState('')
   const [attendeeRef, setAttendeeRef] = useState('')
   const [checkoutError, setCheckoutError] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState<'paystack' | 'collection'>('paystack')
+  const [isProcessing, setIsProcessing] = useState(false)
 
   function openProductModal(prod: MerchandiseProduct) {
     setSelectedProduct(prod)
@@ -92,7 +105,62 @@ export default function StorePage() {
 
     if (cart.length === 0) return
 
+    const orderRef = `ORD-SOAR-${Math.floor(1000 + Math.random() * 9000)}`
+
+    if (paymentMethod === 'paystack') {
+      const paystackKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || 'pk_test_9338f879c28f8905ca44eb4da0b45a282bf126df'
+      
+      if (typeof window !== 'undefined' && window.PaystackPop) {
+        setIsProcessing(true)
+        try {
+          const handler = window.PaystackPop.setup({
+            key: paystackKey,
+            email: customerEmail.trim(),
+            amount: Math.round(subtotal * 100), // in kobo
+            currency: 'NGN',
+            ref: orderRef,
+            metadata: {
+              custom_fields: [
+                { display_name: 'Customer Name', variable_name: 'customer_name', value: customerName.trim() },
+                { display_name: 'Customer Phone', variable_name: 'customer_phone', value: customerPhone.trim() },
+                { display_name: 'Order Reference', variable_name: 'order_reference', value: orderRef }
+              ]
+            },
+            callback: function(response: { reference: string }) {
+              setIsProcessing(false)
+              const newOrder = saveOrder({
+                orderReference: orderRef,
+                attendeeReference: attendeeRef.trim() || undefined,
+                customerName: customerName.trim(),
+                customerEmail: customerEmail.trim(),
+                customerPhone: customerPhone.trim(),
+                items: cart,
+                totalAmount: subtotal,
+                currency: 'NGN',
+                paymentStatus: 'Paid Online'
+              })
+              setCart([])
+              setIsCartOpen(false)
+              setIsCheckingOut(false)
+              router.push(`/orders/${newOrder.orderReference}?paid=true`)
+            },
+            onClose: function() {
+              setIsProcessing(false)
+            }
+          })
+          handler.openIframe()
+          return
+        } catch (err: any) {
+          setIsProcessing(false)
+          setCheckoutError('Unable to open Paystack popup. You can select "Pay at Booth 4" to reserve your order.')
+          return
+        }
+      }
+    }
+
+    // Default or Booth 4 Collection Desk
     const newOrder = saveOrder({
+      orderReference: orderRef,
       attendeeReference: attendeeRef.trim() || undefined,
       customerName: customerName.trim(),
       customerEmail: customerEmail.trim(),
@@ -100,7 +168,7 @@ export default function StorePage() {
       items: cart,
       totalAmount: subtotal,
       currency: 'NGN',
-      paymentStatus: 'Pay at Collection' // Supported safe default
+      paymentStatus: 'Pay at Collection'
     })
 
     // Reset and redirect to order voucher page
@@ -112,6 +180,7 @@ export default function StorePage() {
 
   return (
     <main className="min-h-screen bg-[#041d24] text-[#f4efe4] selection:bg-[#efbd3b] selection:text-[#062d31]">
+      <Script src="https://js.paystack.co/v1/inline.js" strategy="lazyOnload" />
       {/* Header */}
       <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#062d31]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
@@ -467,16 +536,72 @@ export default function StorePage() {
                       className="w-full rounded-xl border border-white/15 bg-[#041d24] p-2.5 text-xs text-white placeholder:text-white/30"
                     />
 
+                    {/* Payment Method Selector */}
+                    <div className="space-y-1.5 pt-1">
+                      <label className="text-xs font-bold text-white/80 block">Payment Method</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setPaymentMethod('paystack')}
+                          className={`p-3 rounded-2xl border text-left transition flex flex-col justify-between ${
+                            paymentMethod === 'paystack'
+                              ? 'border-[#efbd3b] bg-[#0b3b3e] text-white shadow-md'
+                              : 'border-white/10 bg-[#041d24] text-white/60 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between w-full mb-1">
+                            <CreditCard className="size-4 text-[#ffd66a]" />
+                            {paymentMethod === 'paystack' && <Check className="size-3.5 text-[#ffd66a]" />}
+                          </div>
+                          <div>
+                            <p className="text-xs font-bold text-white">Pay Online</p>
+                            <p className="text-[10px] text-white/50 leading-tight mt-0.5">Card, USSD, Bank</p>
+                          </div>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setPaymentMethod('collection')}
+                          className={`p-3 rounded-2xl border text-left transition flex flex-col justify-between ${
+                            paymentMethod === 'collection'
+                              ? 'border-[#efbd3b] bg-[#0b3b3e] text-white shadow-md'
+                              : 'border-white/10 bg-[#041d24] text-white/60 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between w-full mb-1">
+                            <Wallet className="size-4 text-[#ffd66a]" />
+                            {paymentMethod === 'collection' && <Check className="size-3.5 text-[#ffd66a]" />}
+                          </div>
+                          <div>
+                            <p className="text-xs font-bold text-white">Pay at Booth 4</p>
+                            <p className="text-[10px] text-white/50 leading-tight mt-0.5">POS / Cash at desk</p>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+
                     <div className="rounded-xl bg-[#041d24]/60 p-2.5 text-[10px] text-white/50 leading-relaxed">
                       Pre-orders are collected at <strong>Prayer City Youth Pavilion (Booth 4)</strong>. A unique Pickup Voucher QR will be generated for collection desk scanning.
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ffd66a] via-[#efbd3b] to-[#d49a1d] py-3.5 text-xs font-black text-[#062d31] hover:brightness-110 transition shadow-lg"
+                      disabled={isProcessing}
+                      className="w-full flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ffd66a] via-[#efbd3b] to-[#d49a1d] py-3.5 text-xs font-black text-[#062d31] hover:brightness-110 transition shadow-lg disabled:opacity-60 cursor-pointer"
                     >
-                      <span>Generate Pickup Voucher</span>
-                      <Check className="size-4" />
+                      {isProcessing ? (
+                        <span>Opening Paystack Gateway...</span>
+                      ) : paymentMethod === 'paystack' ? (
+                        <>
+                          <CreditCard className="size-4" />
+                          <span>Pay NGN {subtotal.toLocaleString()} via Paystack</span>
+                        </>
+                      ) : (
+                        <>
+                          <Check className="size-4" />
+                          <span>Generate Booth 4 Pickup Voucher</span>
+                        </>
+                      )}
                     </button>
                   </form>
                 )}

@@ -194,10 +194,10 @@ export function getOrders(): MerchandiseOrder[] {
   }
 }
 
-export function saveOrder(order: Omit<MerchandiseOrder, 'id' | 'orderReference' | 'orderDate' | 'collectionStatus' | 'pickupCode'>): MerchandiseOrder {
+export function saveOrder(order: Omit<MerchandiseOrder, 'id' | 'orderReference' | 'orderDate' | 'collectionStatus' | 'pickupCode'> & { orderReference?: string }): MerchandiseOrder {
   const orders = getOrders()
   const orderId = `ord-${Date.now()}`
-  const orderRef = `ORD-SOAR-${Math.floor(1000 + Math.random() * 9000)}`
+  const orderRef = order.orderReference || `ORD-SOAR-${Math.floor(1000 + Math.random() * 9000)}`
   const pickupCode = generatePickupCode()
 
   const fullOrder: MerchandiseOrder = {
