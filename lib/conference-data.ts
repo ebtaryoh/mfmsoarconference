@@ -15,8 +15,8 @@ export const CONFERENCE_INFO = {
   dates: '10–13 December 2026',
   startDate: '2026-12-10T09:00:00+01:00',
   endDate: '2026-12-13T17:00:00+01:00',
-  venue: 'MFM Prayer City',
-  venueDetail: 'KM 12 Lagos–Ibadan Expressway, Ogun State, Nigeria',
+  venue: 'MFM Prayer City Multipurpose Hall',
+  venueDetail: 'Multipurpose Hall, MFM Prayer City, KM 12 Lagos–Ibadan Expressway, Ogun State, Nigeria',
   dailySessions: '9:00 AM – 5:00 PM Daily',
   expectedCapacity: 15000,
   registeredCount: 8420,
@@ -340,90 +340,94 @@ export const CONFERENCE_SCHEDULE: ConferenceSession[] = [
 export const MERCHANDISE_PRODUCTS: MerchandiseProduct[] = [
   {
     id: 'prod-tee-01',
-    slug: 'soar-2026-signature-heavyweight-tee',
-    name: 'SOAR 2026 Signature Oversized Tee',
+    slug: 'soar-2026-official-conference-tee',
+    name: 'SOAR 2026 Official Conference Tee',
     category: 'Apparel',
     price: 8500,
     currency: 'NGN',
-    description: '280 GSM premium heavyweight combed cotton. Features the official metallic gold SOAR emblem on the chest and high-density "Higher Together" typography across the back.',
+    description: 'Official conference tee worn by youth pastors and delegates. 280 GSM premium heavyweight combed cotton featuring the high-density metallic gold SOAR eagle emblem and MFM Youth Ministry chest badge.',
     features: [
-      '280 GSM heavyweight premium cotton',
-      'High-density metallic gold screenprint',
-      'Pre-shrunk vintage relaxed cut',
-      'Custom woven MFM Youth Ministry hem tag'
+      '280 GSM heavyweight combed luxury cotton',
+      'High-density metallic gold & flame screenprint',
+      'Relaxed Gen-Z drop-shoulder & classic silhouette',
+      'Woven MFM Youth Ministry authentic hem label'
     ],
-    sizes: ['S', 'M', 'L', 'XL', '2XL'],
+    sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL', 'Oversized Boxy Fit'],
     colors: [
-      { name: 'Midnight Deep Teal', hex: '#062d31' },
+      { name: 'Midnight Deep Navy', hex: '#0c1b33' },
       { name: 'Pitch Black', hex: '#111827' },
-      { name: 'Warm Ivory', hex: '#f4efe4' }
+      { name: 'Warm Ivory', hex: '#f4efe4' },
+      { name: 'Forest Teal', hex: '#062d31' }
     ],
     images: [
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-10-21%20at%2010.47.56%20AM-OxFTKqdOrXWmsFt5FKhNvSxFAfLiLx.jpeg'
+      '/merch/soar-merch-1.jpg'
     ],
     inStock: true,
-    stockCount: 420,
+    stockCount: 650,
     preOrderDeadline: '05 December 2026',
     pickupLocation: 'Prayer City Youth Pavilion, Booth 4'
   },
   {
     id: 'prod-cap-02',
-    slug: 'soar-metallic-eagle-trucker-cap',
-    name: 'SOAR Metallic Eagle Structured Cap',
+    slug: 'soar-2026-3d-embroidered-structured-cap',
+    name: 'SOAR 2026 3D Embroidered Structured Cap',
     category: 'Headwear',
-    price: 5500,
+    price: 6000,
     currency: 'NGN',
-    description: 'Architectural 6-panel structured cap with metallic gold embroidered soaring eagle icon and an adjustable brass buckle strap.',
+    description: 'Authentic 6-panel structured twill cap with 3D high-density metallic gold embroidery of the soaring eagle, flame crest, and curved visor with brass closure.',
     features: [
-      '3D puff metallic embroidery',
-      'Structured crown with breathable mesh back',
-      'Curved brim with gold sandwich trim',
-      'Brass custom buckle closure'
+      '3D puff metallic gold thread embroidery',
+      'Breathable reinforced crown structure',
+      'Curved peak visor with contrast underbrim',
+      'Antique brass adjustable buckle closure'
     ],
     sizes: ['One Size Fits All (Adjustable)'],
     colors: [
-      { name: 'Midnight Teal & Gold', hex: '#062d31' },
-      { name: 'Crimson Red & Gold', hex: '#8d210f' }
+      { name: 'Deep Navy Blue', hex: '#0c1b33' },
+      { name: 'Obsidian Black', hex: '#111827' },
+      { name: 'Royal Teal', hex: '#062d31' },
+      { name: 'Crimson Flame', hex: '#8d210f' }
     ],
     images: [
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gemini_Generated_Image_2b9il82b9il82b9i.jfif-ZaYzTgyir2FxjHDzsnXPF2WNBhvuxK.jpeg'
+      '/merch/soar-merch-2.jpg'
     ],
     inStock: true,
-    stockCount: 310,
+    stockCount: 450,
     preOrderDeadline: '05 December 2026',
     pickupLocation: 'Prayer City Youth Pavilion, Booth 4'
   },
   {
     id: 'prod-hoodie-03',
     slug: 'soar-2026-commemorative-fleece-hoodie',
-    name: 'SOAR 2026 Commemorative Fleece Hoodie',
+    name: 'SOAR 2026 Gen-Z Heavyweight Fleece Hoodie',
     category: 'Apparel',
-    price: 18000,
+    price: 18500,
     currency: 'NGN',
-    description: 'Ultra-soft 400 GSM brushed fleece hoodie crafted for chilly Prayer City nights. Double-lined hood, embroidered gold chest crest, and kangaroo pocket.',
+    description: 'Ultra-soft 420 GSM brushed organic fleece hoodie tailored for chilly Prayer City night vigils. Double-lined hood, embroidered gold chest crest, and kangaroo pouch pocket.',
     features: [
-      '400 GSM organic cotton fleece',
-      'Double-walled hood with metal aglets',
-      'Embroidered gold eagle on sleeve',
-      'Ribbed cuffs and waistband'
+      '420 GSM ultra-heavyweight brushed fleece',
+      'Oversized Gen-Z streetwear drop-shoulder cut',
+      'Double-walled hood with custom metal aglets',
+      'Embroidered gold eagle emblem on left sleeve'
     ],
-    sizes: ['M', 'L', 'XL', '2XL'],
+    sizes: ['M', 'L', 'XL', '2XL', '3XL (Drop-Shoulder Oversized)'],
     colors: [
+      { name: 'Midnight Deep Navy', hex: '#0c1b33' },
       { name: 'Deep Forest Teal', hex: '#041d24' },
       { name: 'Charcoal Night', hex: '#1e293b' }
     ],
     images: [
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-10-21%20at%2010.47.56%20AM-OxFTKqdOrXWmsFt5FKhNvSxFAfLiLx.jpeg'
+      '/merch/soar-merch-1.jpg'
     ],
     inStock: true,
-    stockCount: 180,
+    stockCount: 220,
     preOrderDeadline: '01 December 2026',
     pickupLocation: 'Prayer City Youth Pavilion, Booth 4'
   },
   {
     id: 'prod-journal-04',
     slug: 'higher-together-ministry-journal-pen',
-    name: 'Higher Together Leather Journal & Pen Set',
+    name: 'Higher Together Debossed Leather Journal & Pen Set',
     category: 'Stationery',
     price: 6000,
     currency: 'NGN',
@@ -436,14 +440,42 @@ export const MERCHANDISE_PRODUCTS: MerchandiseProduct[] = [
     ],
     sizes: ['A5 (148 x 210 mm)'],
     colors: [
-      { name: 'Royal Gold & Teal', hex: '#062d31' }
+      { name: 'Midnight Navy & Gold', hex: '#0c1b33' },
+      { name: 'Royal Teal & Gold', hex: '#062d31' }
     ],
     images: [
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gemini_Generated_Image_2b9il82b9il82b9i.jfif-ZaYzTgyir2FxjHDzsnXPF2WNBhvuxK.jpeg'
+      '/merch/soar-merch-2.jpg'
     ],
     inStock: true,
     stockCount: 500,
     preOrderDeadline: '08 December 2026',
+    pickupLocation: 'Prayer City Youth Pavilion, Booth 4'
+  },
+  {
+    id: 'prod-wristband-05',
+    slug: 'soar-2026-luminous-glow-wristband',
+    name: 'SOAR 2026 Luminous Glow-In-The-Dark Wristband',
+    category: 'Accessories',
+    price: 1500,
+    currency: 'NGN',
+    description: 'High-grade phosphorescent hypoallergenic silicone wristband debossed with the SOAR 2026 emblem and Isaiah 40:31 theme scripture.',
+    features: [
+      'Phosphorescent glow-in-the-dark compound',
+      'Debossed gold metallic color-filled lettering',
+      'Hypoallergenic flexible waterproof silicone',
+      'Comfort-fit youth profile'
+    ],
+    sizes: ['Standard Youth Fit'],
+    colors: [
+      { name: 'Luminous Glow Gold', hex: '#ffd66a' },
+      { name: 'Electric Teal', hex: '#062d31' }
+    ],
+    images: [
+      '/merch/soar-merch-2.jpg'
+    ],
+    inStock: true,
+    stockCount: 1200,
+    preOrderDeadline: '10 December 2026',
     pickupLocation: 'Prayer City Youth Pavilion, Booth 4'
   }
 ]

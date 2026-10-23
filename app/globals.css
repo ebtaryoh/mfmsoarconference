@@ -177,3 +177,17 @@
     transition-duration: .01ms !important; 
   }
 }
+
+/* iOS & Android Mobile Enhancements */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.pt-safe {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+
+button, a, input, select, textarea {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+

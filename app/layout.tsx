@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   title: 'SOAR 2026 — Higher Together | MFM Youth Ministry',
   description: 'SOAR 2026 is the MFM Youth Ministry conference for youth pastors, ministers, workers, campus fellowship leaders, and young people.',
   generator: 'v0.app',
+  applicationName: 'SOAR 2026',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'SOAR 2026'
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
     icon: [
       {
@@ -26,11 +35,13 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
+  colorScheme: 'dark',
+  themeColor: '#041d24',
 }
 
 export default function RootLayout({
