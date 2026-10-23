@@ -1,0 +1,22 @@
+{
+  "name": "SOAR 2026 — Higher Together",
+  "short_name": "SOAR 2026",
+  "description": "MFM Youth Ministry National Conference & Event Operating System",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#031d27",
+  "theme_color": "#062d31",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-light-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
